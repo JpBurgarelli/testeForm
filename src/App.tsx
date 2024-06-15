@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 
 import { z } from "zod";
-import { CircleX, Trash2 } from "lucide-react";
+import { CircleX } from "lucide-react";
 
 function App() {
  const [name, setName] = useState("");
