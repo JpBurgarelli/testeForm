@@ -29,29 +29,44 @@ function App() {
  const [estadoCivil, setEstadoCivil] = useState("");
  const [profisao, setProfissao] = useState("");
  const [description, setDescription] = useState("");
- const [emailError, setEmailError] = useState(false);
- const [telefoneError, setTelefoneError] = useState(false);
- const [cepError, setCepError] = useState(false);
+
+ //Validation
+ const [emailError, setEmailError] = useState<boolean>(false);
+ const [emailErrorMessage, setemailErrorMessage] = useState<string>();
+
+ const [telefoneError, setTelefoneError] = useState<boolean>(false);
+ const [telefoneErrorMessage, setTelefoneErrorMessage] = useState<string>();
+
+ const [cepError, setCepError] = useState<boolean>(false);
+ const [cepErrorMessage, setCepErrorMessage] = useState<string>();
 
  const emailValidationSchema = z.object({
   email: z
    .string()
-   .min(1, { message: "This is required" })
-   .email({ message: "Must be a valid email" }),
+   .min(1, { message: "Campo obrigatorio" })
+   .email({ message: "Deve ser um email valido" }),
  });
 
  const cepValidationSchema = z.object({
-  cep: z
-   .string()
-   .min(8, { message: "CEP deve ter 8 dígitos" })
-   .max(8, { message: "CEP deve ter 8 dígitos" }),
+  cep: z.coerce
+   .number()
+   .int({ message: "O numero nao deve ser decimal" })
+   .nonnegative({ message: "O nummero deve ser postivo" })
+   .min(1, { message: "Campo obrigatorio" })
+   .refine((i) => i.toString().length == 8, {
+    message: "Deve haver 8 digitos",
+   }),
  });
 
  const telefoneValidationSchema = z.object({
-  telefone: z
-   .string()
-   .min(10, { message: "Telefone deve ter pelo menos 10 dígitos" })
-   .max(11, { message: "Telefone deve ter no máximo 11 dígitos" }),
+  telefone: z.coerce
+   .number()
+   .int({ message: "O numero nao deve ser decimal" })
+   .nonnegative({ message: "O nummero deve ser postivo" })
+   .min(1, { message: "Campo obrigatorio" })
+   .refine((i) => i.toString().length > 9, {
+    message: "Deve ter pelo menos 10 digitos",
+   }),
  });
 
  const handleOnSubmit = (e: any) => {
@@ -71,18 +86,24 @@ function App() {
    setEmailError(false);
   } else {
    setEmailError(true);
+   const firstErrorMessage = emailValidationResult.error.errors[0].message;
+   setemailErrorMessage(firstErrorMessage);
   }
 
   if (telefoneValidationResult.success) {
    setTelefoneError(false);
   } else {
    setTelefoneError(true);
+   const firstErrorMessage = telefoneValidationResult.error.errors[0].message;
+   setTelefoneErrorMessage(firstErrorMessage);
   }
 
   if (cepValidationResult.success) {
    setCepError(false);
   } else {
    setCepError(true);
+   const firstErrorMessage = cepValidationResult.error.errors[0].message;
+   setCepErrorMessage(firstErrorMessage);
   }
 
   console.log(
@@ -123,7 +144,7 @@ function App() {
  };
 
  return (
-  <div className="bg-slate-700 w-full h-screen flex items-center justify-center">
+  <div className="bg-slate-700  w-full h-screen flex items-center justify-center">
    <Card className="p-4 flex flex-col gap-6 items-start">
     <h2 className="text-lg font-bold mb-2">Informações Pessoais</h2>
     <div className="flex gap-2">
@@ -146,8 +167,8 @@ function App() {
       />
       {emailError && (
        <div className="flex gap-2 items-center">
-        <CircleX className="text-red-600" />
-        <p className="uppercase">e-mail invalido</p>
+        <CircleX size={20} className="text-red-600" />
+        <p className="uppercase text-xs">{emailErrorMessage}</p>
        </div>
       )}
      </div>
@@ -183,8 +204,8 @@ function App() {
       />
       {cepError && (
        <div className="flex gap-2 items-center">
-        <CircleX className="text-red-600" />
-        <p className="uppercase">CEP invalido</p>
+        <CircleX size={20} className="text-red-600" />
+        <p className="uppercase text-xs">{cepErrorMessage}</p>
        </div>
       )}
      </div>
@@ -201,9 +222,9 @@ function App() {
        placeholder="Telefone"
       />
       {telefoneError && (
-       <div className="flex gap-2 items-center">
-        <CircleX className="text-red-600" />
-        <p className="uppercase">e-mail invalido</p>
+       <div className="flex gap-2 items-start">
+        <CircleX size={20} className="text-red-600" />
+        <p className="uppercase w-full text-xs">{telefoneErrorMessage}</p>
        </div>
       )}
      </div>
