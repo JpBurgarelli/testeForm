@@ -160,7 +160,7 @@ function App() {
  };
 
  return (
-  <div className="bg-slate-700  w-full min-h-screen h-[2000px] flex flex-col items-center justify-center gap-6 p-12">
+  <div className="bg-slate-700  w-full min-h-screen  flex flex-col items-center justify-center gap-6 p-12">
    <Card className="p-4 flex flex-col gap-6 items-start">
     <h2 className="text-lg font-bold mb-2">Informações Pessoais</h2>
     <div>
