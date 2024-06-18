@@ -17,6 +17,8 @@ import { useState } from "react";
 import { z } from "zod";
 import { CircleX } from "lucide-react";
 
+import { IMaskInput } from "react-imask";
+
 function App() {
  const [name, setName] = useState("");
  const [sobreNome, setSobreNome] = useState("");
@@ -30,7 +32,6 @@ function App() {
  const [profisao, setProfissao] = useState("");
  const [description, setDescription] = useState("");
 
- //Validation
  const [emailError, setEmailError] = useState<boolean>(false);
  const [emailErrorMessage, setemailErrorMessage] = useState<string>();
 
@@ -43,7 +44,7 @@ function App() {
  const emailValidationSchema = z.object({
   email: z
    .string()
-   .min(1, { message: "Campo obrigatorio" })
+   .min(1, { message: "Email obrigatório" })
    .email({ message: "Deve ser um email valido" }),
  });
 
@@ -52,7 +53,7 @@ function App() {
    .number()
    .int({ message: "O numero nao deve ser decimal" })
    .nonnegative({ message: "O nummero deve ser postivo" })
-   .min(1, { message: "Campo obrigatorio" })
+   .min(1, { message: "CEP obrigatório" })
    .refine((i) => i.toString().length == 8, {
     message: "Deve haver 8 digitos",
    }),
@@ -63,7 +64,7 @@ function App() {
    .number()
    .int({ message: "O numero nao deve ser decimal" })
    .nonnegative({ message: "O nummero deve ser postivo" })
-   .min(1, { message: "Campo obrigatorio" })
+   .min(1, { message: "Telefone obrigatório" })
    .refine((i) => i.toString().length > 9, {
     message: "Deve ter pelo menos 10 digitos",
    }),
@@ -113,6 +114,8 @@ function App() {
    sobreNome,
    "email: ",
    email,
+   "cpf: ",
+   cpf,
    "cidade: ",
    cidade,
    "rua: ",
@@ -130,47 +133,78 @@ function App() {
    "description: ",
    description
   );
-  setName("");
-  setSobreNome("");
-  setEmail("");
-  setCidade("");
-  setRua("");
-  setBairro("");
-  setCep("");
-  setTelefone("");
-  setEstadoCivil("");
-  setProfissao("");
-  setDescription("");
+
+  if (
+   emailValidationResult.success &&
+   telefoneValidationResult.success &&
+   cepValidationResult.success
+  ) {
+   setName("");
+   setSobreNome("");
+   setEmail("");
+   setCidade("");
+   setRua("");
+   setBairro("");
+   setCep("");
+   setTelefone("");
+   setEstadoCivil("");
+   setProfissao("");
+   setDescription("");
+  }
  };
+
+ const handleChange = (event: any) => {
+  const { value } = event.target;
+  setCpf(value);
+ };
+
+ const [cpf, setCpf] = useState<HTMLInputElement>();
+ console.log(cpf);
 
  return (
   <div className="bg-slate-700  w-full h-screen flex items-center justify-center">
    <Card className="p-4 flex flex-col gap-6 items-start">
     <h2 className="text-lg font-bold mb-2">Informações Pessoais</h2>
-    <div className="flex gap-2">
-     <Input
-      value={name}
-      onChange={(e) => setName(e.target.value)}
-      placeholder="Name"
-     />
-     <Input
-      value={sobreNome}
-      onChange={(e) => setSobreNome(e.target.value)}
-      placeholder="Sobrenome"
-     />
-     <div className="w-full flex flex-col gap-2">
+    <div>
+     <div className="flex gap-2">
       <Input
-       value={email}
-       onChange={(e) => setEmail(e.target.value)}
-       placeholder="Email"
-       type="email"
+       className="border-none "
+       value={name}
+       onChange={(e) => setName(e.target.value)}
+       placeholder="Name"
       />
-      {emailError && (
-       <div className="flex gap-2 items-center">
-        <CircleX size={20} className="text-red-600" />
-        <p className="uppercase text-xs">{emailErrorMessage}</p>
+
+      <Input
+       className="border-none"
+       value={sobreNome}
+       onChange={(e) => setSobreNome(e.target.value)}
+       placeholder="Sobrenome"
+      />
+      <div className="w-full flex flex-col gap-2">
+       <Input
+        className="border-none  "
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
+        type="email"
+       />
+       <div className="h-[10px]">
+        {emailError && (
+         <div className={`flex gap-2 items-center`}>
+          <CircleX size={20} className="text-red-600" />
+          <p className="capitalize text-xs">{emailErrorMessage}</p>
+         </div>
+        )}
        </div>
-      )}
+      </div>
+     </div>
+     <div>
+      <IMaskInput
+       className="p-3 rounded-md text-sm leading-5  "
+       mask="000.000.000-00"
+       placeholder="Digite o seu CPF"
+       onChange={handleChange}
+      />
      </div>
     </div>
 
@@ -202,12 +236,14 @@ function App() {
        onChange={(e) => setCep(e.target.value)}
        placeholder="CEP"
       />
-      {cepError && (
-       <div className="flex gap-2 items-center">
-        <CircleX size={20} className="text-red-600" />
-        <p className="uppercase text-xs">{cepErrorMessage}</p>
-       </div>
-      )}
+      <div className="h-[10px]">
+       {cepError && (
+        <div className="flex gap-2 items-center">
+         <CircleX size={20} className="text-red-600" />
+         <p className="capitalize text-xs">{cepErrorMessage}</p>
+        </div>
+       )}
+      </div>
      </div>
     </div>
 
@@ -221,12 +257,14 @@ function App() {
        onChange={(e) => setTelefone(e.target.value)}
        placeholder="Telefone"
       />
-      {telefoneError && (
-       <div className="flex gap-2 items-start">
-        <CircleX size={20} className="text-red-600" />
-        <p className="uppercase w-full text-xs">{telefoneErrorMessage}</p>
-       </div>
-      )}
+      <div className="h-[10px]">
+       {telefoneError && (
+        <div className="flex gap-2 items-center">
+         <CircleX size={20} className="text-red-600" />
+         <p className="capitalize text-xs">{telefoneErrorMessage}</p>
+        </div>
+       )}
+      </div>
      </div>
 
      <Select>

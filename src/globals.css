@@ -70,6 +70,15 @@
     * {
       @apply border-border;
     }
+<<<<<<< HEAD
+=======
+
+    input::placeholder {
+      @apply text-[#6a7a96]; 
+    }
+  
+
+>>>>>>> master
     body {
       @apply bg-background text-foreground;
     }
