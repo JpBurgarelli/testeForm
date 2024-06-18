@@ -31,6 +31,7 @@ function App() {
  const [estadoCivil, setEstadoCivil] = useState("");
  const [profisao, setProfissao] = useState("");
  const [description, setDescription] = useState("");
+ const [cpf, setCpf] = useState();
 
  const [emailError, setEmailError] = useState<boolean>(false);
  const [emailErrorMessage, setemailErrorMessage] = useState<string>();
@@ -158,17 +159,14 @@ function App() {
   setCpf(value);
  };
 
- const [cpf, setCpf] = useState<HTMLInputElement>();
- console.log(cpf);
-
  return (
-  <div className="bg-slate-700  w-full h-screen flex items-center justify-center">
+  <div className="bg-slate-700  w-full min-h-screen h-[2000px] flex flex-col items-center justify-center gap-6 p-12">
    <Card className="p-4 flex flex-col gap-6 items-start">
     <h2 className="text-lg font-bold mb-2">Informações Pessoais</h2>
     <div>
      <div className="flex gap-2">
       <Input
-       className="border-none "
+       className="1px solid #000"
        value={name}
        onChange={(e) => setName(e.target.value)}
        placeholder="Name"

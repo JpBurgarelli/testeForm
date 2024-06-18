@@ -66,19 +66,23 @@
     }
   }
 
+  input {
+    border: none;
+    border-bottom: 1px solid #e4ecf4;
+    border-radius: 0;
+  }
+  
+
   @layer base {
     * {
       @apply border-border;
     }
-<<<<<<< HEAD
-=======
 
     input::placeholder {
       @apply text-[#6a7a96]; 
     }
   
 
->>>>>>> master
     body {
       @apply bg-background text-foreground;
     }
