@@ -166,7 +166,7 @@ function App() {
     <div>
      <div className="flex gap-2">
       <Input
-       className="1px solid #000"
+       className="border-none "
        value={name}
        onChange={(e) => setName(e.target.value)}
        placeholder="Name"

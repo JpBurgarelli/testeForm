@@ -66,11 +66,6 @@
     }
   }
 
-  input {
-    border: none;
-    border-bottom: 1px solid #e4ecf4;
-    border-radius: 0;
-  }
   
 
   @layer base {
