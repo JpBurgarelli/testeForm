@@ -51,20 +51,16 @@ function App() {
 
  const cepValidationSchema = z.object({
   cep: z.coerce
-   .number()
-   .int({ message: "O numero nao deve ser decimal" })
-   .nonnegative({ message: "O nummero deve ser postivo" })
+   .string()
    .min(1, { message: "CEP obrigatório" })
-   .refine((i) => i.toString().length == 8, {
+   .refine((i) => i.toString().length > 9, {
     message: "Deve haver 8 digitos",
    }),
  });
 
  const telefoneValidationSchema = z.object({
   telefone: z.coerce
-   .number()
-   .int({ message: "O numero nao deve ser decimal" })
-   .nonnegative({ message: "O nummero deve ser postivo" })
+   .string()
    .min(1, { message: "Telefone obrigatório" })
    .refine((i) => i.toString().length > 9, {
     message: "Deve ter pelo menos 10 digitos",
@@ -159,6 +155,16 @@ function App() {
   setCpf(value);
  };
 
+ const handleChangeCep = (event: any) => {
+  const { value } = event.target;
+  setCep(value);
+ };
+
+ const handleChangeTelefone = (event: any) => {
+  const { value } = event.target;
+  setTelefone(value);
+ };
+
  return (
   <div className="bg-slate-700  w-full min-h-screen  flex flex-col items-center justify-center gap-6 p-12">
    <Card className="p-4 flex flex-col gap-6 items-start">
@@ -212,16 +218,19 @@ function App() {
     <div className="flex flex-col gap-2 items-start">
      <div className="flex gap-2">
       <Input
+       className="border-none"
        value={cidade}
        onChange={(e) => setCidade(e.target.value)}
        placeholder="Cidade"
       />
       <Input
+       className="border-none"
        value={rua}
        onChange={(e) => setRua(e.target.value)}
        placeholder="Rua"
       />
       <Input
+       className="border-none"
        value={bairro}
        onChange={(e) => setBairro(e.target.value)}
        placeholder="Bairro"
@@ -229,11 +238,14 @@ function App() {
      </div>
 
      <div className="flex flex-col gap-2">
-      <Input
-       value={cep}
-       onChange={(e) => setCep(e.target.value)}
-       placeholder="CEP"
-      />
+      <div>
+       <IMaskInput
+        className="p-3 rounded-md text-sm leading-5  "
+        mask="00-000-000"
+        placeholder="Digite o seu CEP"
+        onChange={handleChangeCep}
+       />
+      </div>
       <div className="h-[10px]">
        {cepError && (
         <div className="flex gap-2 items-center">
@@ -250,11 +262,14 @@ function App() {
     <h2 className="text-lg font-bold mb-2">Outras Informações</h2>
     <div className="flex w-full gap-2">
      <div className="w-full flex flex-col gap-2">
-      <Input
-       value={telefone}
-       onChange={(e) => setTelefone(e.target.value)}
-       placeholder="Telefone"
-      />
+      <div>
+       <IMaskInput
+        className="p-3 rounded-md text-sm leading-5  "
+        mask="(00)00000-0000"
+        placeholder="Digite o seu Telefone"
+        onChange={handleChangeTelefone}
+       />
+      </div>
       <div className="h-[10px]">
        {telefoneError && (
         <div className="flex gap-2 items-center">
