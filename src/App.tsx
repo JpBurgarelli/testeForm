@@ -280,22 +280,23 @@ function App() {
       </div>
      </div>
 
-     <Select>
+     <Select onValueChange={(value) => setProfissao(value)}>
       <SelectTrigger>
-       <SelectValue placeholder="Profissao" />
+       <SelectValue placeholder="Selecione a profissão" />
       </SelectTrigger>
       <SelectContent>
        <SelectItem value="Programador">Programador</SelectItem>
        <SelectItem value="Engenheiro">Engenheiro</SelectItem>
-       <SelectItem value="Medico">Medico</SelectItem>
+       <SelectItem value="Medico">Médico</SelectItem>
        <SelectItem value="Cozinheiro">Cozinheiro</SelectItem>
        <SelectItem value="Arquiteto">Arquiteto</SelectItem>
+       <SelectItem value="nenhum">Nenhuma das opções</SelectItem>
       </SelectContent>
      </Select>
 
-     <Select>
+     <Select onValueChange={(value) => setEstadoCivil(value)}>
       <SelectTrigger>
-       <SelectValue placeholder="Estado Civil" />
+       <SelectValue placeholder="Selecione o estado civil" />
       </SelectTrigger>
       <SelectContent>
        <SelectItem value="Solteiro">Solteiro</SelectItem>
@@ -303,6 +304,7 @@ function App() {
        <SelectItem value="Separado">Separado</SelectItem>
        <SelectItem value="Divorciado">Divorciado</SelectItem>
        <SelectItem value="Viuvo">Viuvo</SelectItem>
+       <SelectItem value="nenhum">Nenhuma das opcoes</SelectItem>
       </SelectContent>
      </Select>
     </div>
