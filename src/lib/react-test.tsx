@@ -13,7 +13,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IMaskInput } from "react-imask";
 import { CircleX } from "lucide-react";
 
 const SignUpSchema = z.object({
