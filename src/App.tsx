@@ -1,4 +1,5 @@
 import "./globals.css";
+import { useForm } from "react-hook-form";
 
 import { Card } from "./components/ui/card";
 import { Button } from "./components/ui/button";
@@ -18,6 +19,7 @@ import { z } from "zod";
 import { CircleX } from "lucide-react";
 
 import { IMaskInput } from "react-imask";
+import { Teste } from "./lib/react-test";
 
 function App() {
  const [name, setName] = useState("");
@@ -167,7 +169,10 @@ function App() {
 
  return (
   <div className="bg-slate-700  w-full min-h-screen  flex flex-col items-center justify-center gap-6 p-12">
+   <Teste />
+
    <Card className="p-4 flex flex-col gap-6 items-start">
+    <h2 className="text-lg font-bold mb-2">Sem React Hook Form</h2>
     <h2 className="text-lg font-bold mb-2">Informações Pessoais</h2>
     <div>
      <div className="flex gap-2">
@@ -186,7 +191,7 @@ function App() {
       />
       <div className="w-full flex flex-col gap-2">
        <Input
-        className="border-none  "
+        className="border-none"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
