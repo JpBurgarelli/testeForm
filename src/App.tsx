@@ -1,5 +1,8 @@
 import "./globals.css";
 
+import { Teste } from "./react-test";
+import { RegisterForm } from "./maskIntegration";
+
 import { Card } from "./components/ui/card";
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
@@ -18,7 +21,6 @@ import { z } from "zod";
 import { CircleX } from "lucide-react";
 
 import { IMaskInput } from "react-imask";
-import { Teste } from "./lib/react-test";
 
 function App() {
  const [name, setName] = useState("");
@@ -168,6 +170,7 @@ function App() {
 
  return (
   <div className="bg-slate-700  w-full min-h-screen  flex flex-col items-center justify-center gap-6 p-12">
+   <RegisterForm />
    <Teste />
 
    <Card className="p-4 flex flex-col gap-6 items-start">
